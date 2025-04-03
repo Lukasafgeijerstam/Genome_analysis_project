@@ -1,0 +1,16 @@
+Lmod has detected the following error: The following module(s) are unknown:
+"fastqc"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore-cache load "fastqc"
+
+Also make sure that all modulefiles written in TCL start with the string
+#%Module
+
+
+
+/var/spool/slurmd/job9890021/slurm_script: line 23: fastqc: command not found
+/var/spool/slurmd/job9890021/slurm_script: line 24: fastqc: command not found
+/var/spool/slurmd/job9890021/slurm_script: line 23: fastqc: command not found
+/var/spool/slurmd/job9890021/slurm_script: line 24: fastqc: command not found
