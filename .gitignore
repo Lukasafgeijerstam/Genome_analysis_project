@@ -1,0 +1,5 @@
+*.out
+*.fastq.gz
+*.fastq
+*.fasta.gz
+*.fasta
