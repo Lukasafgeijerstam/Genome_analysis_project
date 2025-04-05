@@ -3,3 +3,4 @@
 *.fastq
 *.fasta.gz
 *.fasta
+raw_data
