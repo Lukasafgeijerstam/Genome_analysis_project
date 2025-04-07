@@ -1,0 +1,31 @@
+#!/bin/bash -l
+
+#SBATCH -A uppmax2025-3-3
+#SBATCH -M snowy
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 06:00:00
+#SBATCH -J flye_long_DNA
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user lukasafgeijerstam@gmail.com
+#SBATCH --output=%x.%j.out
+
+# Load modules
+module load bioinfo-tools
+module load Flye
+
+set -e
+
+# Input and output directories
+input_dir="/home/lukasa/Genome_analysis_project/raw_data/02-trimmed_reads/trimmed_long_reads"
+output_base="/home/lukasa/Genome_analysis_project/03-assembly"
+
+# Run Flye on each sample
+for file in 66 72; do
+    input_file="${input_dir}/SRR244130${file}_trimmed.fastq.gz"
+output_dir="{output_base}/SRR244130${file}"
+
+mkdir -p "$output_dir"
+
+    flye --nano-raw "$input_file" --out-dir "$output_dir" --threads 8
+done
