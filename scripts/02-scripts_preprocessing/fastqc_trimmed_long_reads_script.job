@@ -1,0 +1,25 @@
+#!/bin/bash -l
+
+#SBATCH -A uppmax2025-3-3
+#SBATCH -M snowy
+#SBATCH -p core
+#SBATCH -n 4
+#SBATCH -t 00:30:00
+#SBATCH -J fastqc_trimmed_short_DNA
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user lukasafgeijerstam@gmail.com
+#SBATCH --output=%x.%j.out
+
+# Load modules
+module load bioinfo-tools
+module load FastQC
+
+# Define inputs and output directory
+output_dir="/home/lukasa/Genome_analysis_project/02-trimmed_reads"
+input_dir="/home/lukasa/Genome_analysis_project/raw_data/02-trimmed_reads/trimmed_long_reads"
+
+# Run FASTQC
+for file in {66,72}; 
+do
+    fastqc -o $output_dir --threads 4 $input_dir/SRR244130${file}_trimmed.fastq.qz
+done
