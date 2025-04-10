@@ -15,12 +15,13 @@ module load bioinfo-tools
 module load FastQC
 
 # Define inputs and output directory
-output_dir="/home/lukasa/Genome_analysis_project/02-trimmed_reads"
-input_dir=/home/lukasa/Genome_analysis_project/raw_data/02-trimmed_reads
+output_dir="/home/lukasa/Genome_analysis_project/02-trimmed_reads/trimmed_reads_quality_control/trimmed_short_reads_qc"
+input_dir="/home/lukasa/Genome_analysis_project/raw_data/02-trimmed_reads/trimmed_short_reads"
+
 
 # Run FASTQC
 for file in {65,71}; 
 do
-    fastqc -o $output_dir --threads 4 "$input_dir/SRR244130${file}_1_paired.fq.gz"
-    fastqc -o $output_dir --threads 4 "$input_dir/SRR244130${file}_2_paired.fq.gz"
+    fastqc -o "$output_dir" --threads 4 "$input_dir/SRR244130${file}_1_paired.fq.gz"
+    fastqc -o "$output_dir" --threads 4 "$input_dir/SRR244130${file}_2_paired.fq.gz"
 done
