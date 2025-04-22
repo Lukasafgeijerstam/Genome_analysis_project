@@ -1,0 +1,15 @@
+reference chromosomes:
+	CP094298.1 (total length: 9368017 bp, total length without N's: 9368017 bp, maximal covered length: 9361271 bp)
+	CP094299.1 (total length: 292578 bp, total length without N's: 292578 bp, maximal covered length: 292560 bp)
+
+total genome size: 9660595
+
+gap min size: 50
+partial gene/operon min size: 100
+
+
+
+assembly                 | genome    | duplication | gaps      | genes     | partial   | operons   | partial   |
+                         | fraction  | ratio       | number    |           | genes     |           | operons   |
+========================================================================================================================
+polished_assembly_72     | 99.930    | 1.000       | 1         | -         | -         | -         | -         |

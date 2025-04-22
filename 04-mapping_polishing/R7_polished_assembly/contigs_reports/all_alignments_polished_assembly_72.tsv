@@ -1,0 +1,7 @@
+S1	E1	S2	E2	Reference	Contig	IDY	Ambiguous	Best_group
+22	4911439	1	4911388	CP094298.1	contig_2_pilon	100.0		True
+indel: indel (> 5bp) [linear representation of circular genome]
+4918143	9367995	4911389	9361213	CP094298.1	contig_2_pilon	100.0		True
+CONTIG	contig_2_pilon	9361213	correct
+15	292574	8	292569	CP094299.1	contig_3_pilon	100.0		True
+CONTIG	contig_3_pilon	292569	correct

@@ -1,0 +1,61 @@
+Aligning contigs to reference...
+	Aligning contigs to the reference
+Filtering alignments...
+Parsing coords...
+Loading reference...
+	Loaded [CP100397.1]
+	Loaded [CP100398.1]
+	Total Regions: 2
+	Total Region Length: 9619655
+Analyzing contigs...
+CONTIG: contig_1_pilon (6995913bp)
+Best alignment score: 6995213.4 (LEN: 6995913, IDY: 99.99), Total number of alignments: 1
+		One align captures most of this contig: 528515 7524541 | 1 6995913 | 6996027 6995913 | 99.99 | CP100397.1 contig_1_pilon
+
+CONTIG: contig_2_pilon (170380bp)
+Best alignment score: 170380.0 (LEN: 170380, IDY: 100.00), Total number of alignments: 1
+		One align captures most of this contig: 8 170387 | 170380 1 | 170380 170380 | 100.0 | CP100398.1 contig_2_pilon
+
+CONTIG: contig_3_pilon (551066bp)
+Best alignment score: 551055.0 (LEN: 551055, IDY: 100.00), Total number of alignments: 2
+		This contig has 2 significant alignments. [An ambiguously mapped contig]
+		Using only first of these alignment (option --ambiguity-usage is set to "one"):
+			Alignment: 8557130 9108201 | 551066 12 | 551072 551055 | 100.0 | CP100397.1 contig_3_pilon
+			Skipping alignment 8 551079 | 12 551066 | 551072 551055 | 100.0 | CP100397.1 contig_3_pilon
+
+CONTIG: contig_4_pilon (1054385bp)
+Best alignment score: 1054174.1 (LEN: 1054385, IDY: 99.98), Total number of alignments: 1
+		One align captures most of this contig: 7524543 8578980 | 1054385 1 | 1054438 1054385 | 99.98 | CP100397.1 contig_4_pilon
+
+Analyzing coverage...
+Writing SNPs into /home/lukasa/Genome_analysis_project/04-mapping_polishing/HP126_polished_quality/contigs_reports/minimap_output/polished_assembly_66.used_snps.gz
+
+Analysis is finished!
+Founded SNPs were written into /home/lukasa/Genome_analysis_project/04-mapping_polishing/HP126_polished_quality/contigs_reports/minimap_output/polished_assembly_66.used_snps.gz
+
+Results:
+	Local Misassemblies: 0
+	Misassemblies: 0
+		Relocations: 0
+		Translocations: 0
+		Inversions: 0
+	Scaffold gap extensive misassemblies: 0
+	Scaffold gap local misassemblies: 0
+	Misassembled Contigs: 0
+	Misassembled Contig Bases: 0
+	Misassemblies Inter-Contig Overlap: 0
+Unaligned Contigs: 0 + 0 part
+Half Unaligned Contigs with Misassemblies: 0
+Unaligned Contig Bases: 0
+
+Ambiguously Mapped Contigs: 1
+Total Bases in Ambiguously Mapped Contigs: 551066
+Extra Bases in Ambiguously Mapped Contigs: 0
+Note that --allow-ambiguity option was set to "one" and only first alignment per each of these contigs was used.
+
+	Covered Bases: 8750066
+
+	SNPs: 175
+	Insertions: 123
+	Deletions: 307
+

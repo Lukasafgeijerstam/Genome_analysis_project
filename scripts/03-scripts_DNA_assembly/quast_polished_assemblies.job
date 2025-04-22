@@ -1,0 +1,31 @@
+#!/bin/bash -l
+
+#SBATCH -A uppmax2025-3-3
+#SBATCH -M snowy
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 01:00:00
+#SBATCH -J quast_polished_assembly
+#SBATCH --output=%x.%j.out
+
+# Load modules
+module load bioinfo-tools
+module load quast
+
+set -e
+
+# Input and output directories for HP126
+input_file="/home/lukasa/Genome_analysis_project/04-mapping_polishing/polished_assembly_66.fasta"
+reference_file="/home/lukasa/Genome_analysis_project/raw_data/reference_genome/HP126_genome.fasta"
+output_dir="/home/lukasa/Genome_analysis_project/04-mapping_polishing/HP126_polished_quality"
+
+# Run quast on HP126 file
+/sw/bioinfo/quast/5.0.2/rackham/bin/quast.py "$input_file" -r "$reference_file" -o "$output_dir" --threads 8
+
+# Input and output directories for R7
+input_file="/home/lukasa/Genome_analysis_project/04-mapping_polishing/polished_assembly_72.fasta"
+reference_file="/home/lukasa/Genome_analysis_project/raw_data/reference_genome/R7_genome.fasta"
+output_dir="/home/lukasa/Genome_analysis_project/04-mapping_polishing/R7_polished_assembly"
+
+# Run quast on R7 file
+/sw/bioinfo/quast/5.0.2/rackham/bin/quast.py "$input_file" -r "$reference_file" -o "$output_dir" --threads 8
