@@ -3,5 +3,7 @@
 *.fastq
 *.fasta.gz
 *.fasta
+*.sam
 raw_data
-03-assembly/long_read_assembly_output
+03-assembly/long_read_assembly_output/
+
