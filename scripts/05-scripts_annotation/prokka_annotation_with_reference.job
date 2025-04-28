@@ -1,0 +1,27 @@
+#!/bin/bash -l
+
+#SBATCH -A uppmax2025-3-3
+#SBATCH -M snowy
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 02:00:00
+#SBATCH -J prokka_annotation
+#SBATCH --output=%x.%j.out
+
+# Load modules
+module load bioinfo-tools
+module load prokka
+
+set -e
+
+R7_assembly="/home/lukasa/Genome_analysis_project/04-mapping_polishing/polished_assembly_72.fasta"
+HP126_assembly="/home/lukasa/Genome_analysis_project/04-mapping_polishing/polished_assembly_66.fasta"
+
+R7_ref_proteins="/home/lukasa/Genome_analysis_project/raw_data/reference_proteins/R7_protein.faa"
+HP126_ref_proteins="/home/lukasa/Genome_analysis_project/raw_data/reference_proteins/HP126_protein.faa"
+
+# Run prokka on the R7 strain with a reference annotation
+# prokka --cpus 8 --outdir R7_prokka_with_ref_output --prefix R7_with_ref --proteins $R7_ref_proteins $R7_assembly
+
+# Run prokka on the HP126 strain with a reference annotation
+prokka --cpus 8 --outdir HP126_prokka_with_ref_output --prefix HP126_with_ref --proteins $HP126_ref_proteins $HP126_assembly
