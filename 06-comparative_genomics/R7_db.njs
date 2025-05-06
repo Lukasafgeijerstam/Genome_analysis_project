@@ -6,7 +6,7 @@
   "description": "/home/lukasa/Genome_analysis_project/04-mapping_polishing/polished_assembly_72.fasta",
   "number-of-letters": 9653782,
   "number-of-sequences": 2,
-  "last-updated": "2025-05-06T17:36:00",
+  "last-updated": "2025-05-06T19:20:00",
   "number-of-volumes": 1,
   "bytes-total": 2450706,
   "bytes-to-cache": 2413644,
