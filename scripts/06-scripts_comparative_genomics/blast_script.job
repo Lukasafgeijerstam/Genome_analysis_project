@@ -1,0 +1,25 @@
+#!/bin/bash -l
+
+#SBATCH -A uppmax2025-3-3
+#SBATCH -M snowy
+#SBATCH -p core
+#SBATCH -n 4
+#SBATCH -t 00:30:00
+#SBATCH -J blast_comparison
+#SBATCH --output=%x.%j.out
+
+set -e
+
+# Load modules
+module load bioinfo-tools
+module load blast
+
+# Input files
+R7_genome="/home/lukasa/Genome_analysis_project/04-mapping_polishing/polished_assembly_72.fasta"
+HP126_genome="/home/lukasa/Genome_analysis_project/04-mapping_polishing/polished_assembly_66.fasta"
+
+# Create a BLAST database from the R7 wildtype
+makeblastdb -in $R7_genome -dbtype nucl -out R7_db
+
+# BLAST the HP126 genome against the database
+blastn -query $HP126_genome -db R7_db -outfmt 6 -out R7_vs_HP126.tsv
