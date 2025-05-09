@@ -1,0 +1,25 @@
+#!/bin/bash -l
+
+#SBATCH -A uppmax2025-3-3
+#SBATCH -M snowy
+#SBATCH -p core
+#SBATCH -n 1
+#SBATCH -t 00:10:00
+#SBATCH -J act_viz
+#SBATCH --output=%x.%j.out
+
+set -e
+
+# Load modules
+module load bioinfo-tools
+module load artemis/16.0.0
+
+# Input files
+R7_genome="/home/lukasa/Genome_analysis_project/04-mapping_polishing/polished_assembly_72.fasta"
+HP126_genome="/home/lukasa/Genome_analysis_project/04-mapping_polishing/polished_assembly_66.fasta"
+comparison_file="/home/lukasa/Genome_analysis_project/06-comparative_genomics/R7_vs_HP126.tsv"
+
+# Run ACT on the two genomes
+/sw/bioinfo/artemis/16.0.0/rackham/act $comparison_file $R7_genome $HP126_genome 
+
+

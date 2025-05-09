@@ -4,6 +4,7 @@
 *.fasta.gz
 *.fasta
 *.sam
+*.fq.gz
 raw_data
 03-assembly/long_read_assembly_output/
 
