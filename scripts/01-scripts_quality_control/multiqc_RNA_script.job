@@ -1,0 +1,21 @@
+#!/bin/bash -l
+
+#SBATCH -A uppmax2025-3-3
+#SBATCH -M snowy
+#SBATCH -p core
+#SBATCH -n 1
+#SBATCH -t 00:30:00
+#SBATCH -J multiqc_RNA
+#SBATCH --output=%x.%j.out
+
+set -e
+
+# Load modules
+module load bioinfo-tools
+module load MultiQC
+
+# Input directory
+input_dir="/home/lukasa/Genome_analysis_project/01-quality_control/RNA_fastqc_output"
+
+# Run MultiQC on RNA seq FastQC files
+multiqc $input_dir
