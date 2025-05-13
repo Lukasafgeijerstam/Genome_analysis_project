@@ -1,0 +1,6 @@
+[2025-05-13 20:50:17,157] multiqc.core.version_check                         [WARNING]  MultiQC Version v1.28 now available!
+[2025-05-13 20:50:17,158] multiqc.core.file_search                           [INFO   ]  Search path: /home/lukasa/Genome_analysis_project/01-quality_control/RNA_fastqc_output
+[2025-05-13 20:50:18,482] multiqc.modules.fastqc.fastqc                      [INFO   ]  Found 12 reports
+[2025-05-13 20:50:19,346] multiqc.core.write_results                         [INFO   ]  Data        : multiqc_data
+[2025-05-13 20:50:19,950] multiqc.core.write_results                         [INFO   ]  Report      : multiqc_report.html
+[2025-05-13 20:50:19,956] multiqc.multiqc                                    [INFO   ]  MultiQC complete
