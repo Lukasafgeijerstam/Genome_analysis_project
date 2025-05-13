@@ -1,0 +1,6 @@
+[2025-05-13 21:16:14,864] multiqc.core.version_check                         [WARNING]  MultiQC Version v1.28 now available!
+[2025-05-13 21:16:14,865] multiqc.core.file_search                           [INFO   ]  Search path: /home/lukasa/Genome_analysis_project/02-trimmed_reads/trimmed_reads_quality_control/trimmed_RNA_reads_qc
+[2025-05-13 21:16:16,145] multiqc.modules.fastqc.fastqc                      [INFO   ]  Found 12 reports
+[2025-05-13 21:16:16,876] multiqc.core.write_results                         [INFO   ]  Data        : multiqc_data
+[2025-05-13 21:16:17,393] multiqc.core.write_results                         [INFO   ]  Report      : multiqc_report.html
+[2025-05-13 21:16:17,399] multiqc.multiqc                                    [INFO   ]  MultiQC complete
