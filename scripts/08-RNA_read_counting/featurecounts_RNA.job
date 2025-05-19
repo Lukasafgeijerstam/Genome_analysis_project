@@ -1,0 +1,39 @@
+#!/bin/bash -l
+
+#SBATCH -A uppmax2025-3-3
+#SBATCH -M snowy
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 03:00:00
+#SBATCH -J feature_counts_RNA
+#SBATCH --output=%x.%j.out
+
+set -e
+
+# Load modules
+module load bioinfo-tools
+module load subread
+
+# Annotation files (.bed format)
+R7_annotation_file="/home/lukasa/Genome_analysis_project/05-annotation/R7_prokka_output/R7_annotation.gtf"
+HP126_annotation_file="/home/lukasa/Genome_analysis_project/05-annotation/HP126_prokka_output/HP126_annotation.gtf"
+
+# BAM files
+R7_bam_file="/home/lukasa/Genome_analysis_project/07-RNA_mapping/R7_merged.bam"
+HP126_bam_file="/home/lukasa/Genome_analysis_project/07-RNA_mapping/HP126_merged.bam"
+
+# Count features for R7
+featureCounts -T 8 -p -s 2 \
+-a "$R7_annotation_file" \
+-o R7_counts.txt \
+-g gene_id \
+-t transcript \
+"$R7_bam_file"
+
+# Count features for HP126
+featureCounts -T 8 -p -s 2 \
+-a "$HP126_annotation_file" \
+-o HP126_counts.txt \
+-g gene_id \
+-t transcript \
+"$HP126_bam_file"
