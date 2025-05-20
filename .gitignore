@@ -8,3 +8,5 @@
 *.bam
 raw_data
 03-assembly/long_read_assembly_output/
+07-RNA_mapping/against_R7/mapping_coverage_R7.txt
+07-RNA_mapping/against_HP126/mapping_coverage_HP126.txt
