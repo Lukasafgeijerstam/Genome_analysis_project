@@ -1,73 +1,72 @@
-# DE_analysis.R
-
-# Load libraries
+# Load necessary libraries
 library(DESeq2)
+library(tidyverse)
+library(pheatmap)
+library(RColorBrewer)
 
-# --- Step 1: Read count data ---
-# Adjust paths to your files
-r7_counts_file_62 <- "/home/lukasa/Genome_analysis_project/08-read_counting/featureCounts/R7_counts_62.txt"
-r7_counts_file_63 <- "/home/lukasa/Genome_analysis_project/08-read_counting/featureCounts/R7_counts_63.txt"
-r7_counts_file_64 <- "/home/lukasa/Genome_analysis_project/08-read_counting/featureCounts/R7_counts_64.txt"
-hp126_counts_file_59 <- "/home/lukasa/Genome_analysis_project/08-read_counting/featureCounts/HP126_counts_59.txt"
-hp126_counts_file_60 <- "/home/lukasa/Genome_analysis_project/08-read_counting/featureCounts/HP126_counts_60.txt"
-hp126_counts_file_61 <- "/home/lukasa/Genome_analysis_project/08-read_counting/featureCounts/HP126_counts_61.txt"
+# Set working directory where count files are located
+setwd("/home/lukasa/Genome_analysis_project/08-read_counting/featureCounts_against_R7/count_files")
 
-# Read counts as tables, skipping featureCounts comments 
-r7_62 <- read.table(r7_counts_file_62, header = TRUE, row.names = 1, comment.char = "#", stringsAsFactors = FALSE)
-r7_63 <- read.table(r7_counts_file_63, header = TRUE, row.names = 1, comment.char = "#", stringsAsFactors = FALSE)
-r7_64 <- read.table(r7_counts_file_64, header = TRUE, row.names = 1, comment.char = "#", stringsAsFactors = FALSE)
-hp126_59 <- read.table(hp126_counts_file_59, header = TRUE, row.names = 1, comment.char = "#", stringsAsFactors = FALSE)
-hp126_60 <- read.table(hp126_counts_file_60, header = TRUE, row.names = 1, comment.char = "#", stringsAsFactors = FALSE)
-hp126_61 <- read.table(hp126_counts_file_61, header = TRUE, row.names = 1, comment.char = "#", stringsAsFactors = FALSE)
+# List all count files 
+count_files <- list.files(pattern = "*.txt")
 
-# Extract the counts column 
-r7_62_counts <- r7_62[, ncol(r7_62), drop = FALSE]
-r7_63_counts <- r7_63[, ncol(r7_63), drop = FALSE]
-r7_64_counts <- r7_64[, ncol(r7_64), drop = FALSE]
-hp126_59_counts <- hp126_59[, ncol(hp126_59), drop = FALSE]
-hp126_60_counts <- hp126_60[, ncol(hp126_60), drop = FALSE]
-hp126_61_counts <- hp126_61[, ncol(hp126_61), drop = FALSE]
+# Read count files and extract counts
+count_list <- lapply(count_files, function(file) {
+  df <- read.delim(file, comment.char="#", header=TRUE, row.names=1)
+  df <- df[, ncol(df), drop=FALSE]  
+  colnames(df) <- gsub("\\.txt$", "", file)
+  return(df)
+})
 
 # Combine into one count matrix
-count_matrix <- cbind(R7_62 = r7_62_counts[,1], R7_63 = r7_63_counts[,1], R7_64 = r7_64_counts[,1], 
-HP126_59 = hp126_59_counts[,1], HP126_60 = hp126_60_counts[,1], HP126_61 = hp126_61_counts[,1])
+count_matrix <- do.call(cbind, count_list)
 
-# --- Step 2: Create sample metadata ---
+# Create sample metadata
 sample_info <- data.frame(
   row.names = colnames(count_matrix),
-  condition = factor(c("R7", "R7", "R7", "HP", "HP126", "HP126")),
+  condition = c(rep("R7", 3), rep("HP126", 3))
 )
 
-# --- Step 3: Create DESeqDataSet ---
+# Convert condition to factor
+sample_info$condition <- factor(sample_info$condition, levels = c("R7", "HP126"))
+
+# Construct DESeq2 dataset
 dds <- DESeqDataSetFromMatrix(countData = count_matrix,
                               colData = sample_info,
                               design = ~ condition)
 
-# Pre-filtering: remove genes with zero counts across all samples
-keep <- rowSums(counts(dds)) > 0
+# Prefilter low count genes (optional but recommended)
+keep <- rowSums(counts(dds)) >= 10
 dds <- dds[keep,]
 
-# --- Step 4: Run DESeq ---
+# Run DESeq2
 dds <- DESeq(dds)
 
-# --- Step 5: Get results ---
-res <- results(dds)
-res <- res[order(res$padj), ]  # Sort by adjusted p-value
+# Get DE results (HP126 vs R7)
+res <- results(dds, contrast = c("condition", "HP126", "R7"))
 
-# --- Step 6: Save results ---
-write.csv(as.data.frame(res), file = "DE_results_R7_vs_HP126.csv")
+# Order results by adjusted p-value
+res_ordered <- res[order(res$padj),]
 
-# --- Step 7: Basic plots ---
+# Save results to CSV
+write.csv(as.data.frame(res_ordered), file = "DESeq2_results_HP126_vs_R7.csv")
 
-# MA-plot
-png("MAplot_DESeq2.png")
-plotMA(res, main="DESeq2 MA-plot", ylim=c(-5,5))
-dev.off()
+# Plot MA plot
+plotMA(res, ylim=c(-10,10))
 
-# Sample distance heatmap and PCA require replicates, so omitted here
+# Plot PCA plot
+vsd <- vst(dds, blind=FALSE)
+plotPCA(vsd, intgroup="condition")
 
-# Print summary to console
-print(summary(res))
+# Plot heatmap of top 20 DEGs
+top_genes <- rownames(res_ordered)[1:20]
+mat <- assay(vsd)[top_genes, ]
+mat_scaled <- t(scale(t(mat)))
 
+annotation_col <- data.frame(Condition = sample_info$condition)
+rownames(annotation_col) <- rownames(sample_info)
 
-
+pheatmap(mat_scaled, annotation_col = annotation_col,
+         main = "Heatmap: Top 20 DEGs",
+         color = colorRampPalette(rev(brewer.pal(9, "RdBu")))(255),
+         fontsize_row = 8)
