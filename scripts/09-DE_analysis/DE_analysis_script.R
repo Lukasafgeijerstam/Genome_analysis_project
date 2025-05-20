@@ -21,6 +21,10 @@ count_list <- lapply(count_files, function(file) {
 # Combine into one count matrix
 count_matrix <- do.call(cbind, count_list)
 
+# Remove zero count genes
+keep <- rowSums(count_matrix) > 0
+count_matrix_filtered <- count_matrix[keep, ]
+
 # Create sample metadata
 sample_info <- data.frame(
   row.names = colnames(count_matrix),
@@ -35,9 +39,10 @@ dds <- DESeqDataSetFromMatrix(countData = count_matrix,
                               colData = sample_info,
                               design = ~ condition)
 
-# Prefilter low count genes (optional but recommended)
-keep <- rowSums(counts(dds)) >= 10
-dds <- dds[keep,]
+# Filter genes with less than 10 counts in at least 2 samples per subspecies
+keep <- rowSums(counts(dds)[, dds$condition == "R7"]) > 0 & 
+        rowSums(counts(dds)[, dds$condition == "HP126"]) > 0
+dds <- dds[keep, ]
 
 # Run DESeq2
 dds <- DESeq(dds)
