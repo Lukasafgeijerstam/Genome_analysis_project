@@ -18,47 +18,39 @@ set -e
 # Input directories
 assembly_dir="/home/lukasa/Genome_analysis_project/04-mapping_polishing"
 reads_dir="/home/lukasa/Genome_analysis_project/raw_data/02-trimmed_reads/trimmed_RNA_reads/SRR245164"
-output_dir="/home/lukasa/Genome_analysis_project/07-RNA_mapping"
+output_dir="/home/lukasa/Genome_analysis_project/07-RNA_mapping/against_R7"
 
 # Index the R7 genome
 bwa index "${assembly_dir}/polished_assembly_72.fasta"
 
 # For sample 62
-bwa mem -t 8 "${assembly_dir}/polished_assembly_72.fasta" \
-"${reads_dir}62_1.fq.gz" "${reads_dir}62_2.fq.gz" \
-| samtools view -b - | samtools sort -o "${output_dir}/62_sorted.bam"
+# bwa mem -t 8 "${assembly_dir}/polished_assembly_72.fasta" \
+# "${reads_dir}62_1.fq.gz" "${reads_dir}62_2.fq.gz" \
+# | samtools view -b - | samtools sort -o "${output_dir}/62_sorted.bam"
 
 # For sample 63
-bwa mem -t 8 "${assembly_dir}/polished_assembly_72.fasta" \
-"${reads_dir}63_1.fq.gz" "${reads_dir}63_2.fq.gz" \
-| samtools view -b - | samtools sort -o "${output_dir}/63_sorted.bam"
+# bwa mem -t 8 "${assembly_dir}/polished_assembly_72.fasta" \
+# "${reads_dir}63_1.fq.gz" "${reads_dir}63_2.fq.gz" \
+# | samtools view -b - | samtools sort -o "${output_dir}/63_sorted.bam"
 
 # For sample 64
-bwa mem -t 8 "${assembly_dir}/polished_assembly_72.fasta" \
-"${reads_dir}64_1.fq.gz" "${reads_dir}64_2.fq.gz" \
-| samtools view -b - | samtools sort -o "${output_dir}/64_sorted.bam"
+# bwa mem -t 8 "${assembly_dir}/polished_assembly_72.fasta" \
+# "${reads_dir}64_1.fq.gz" "${reads_dir}64_2.fq.gz" \
+# | samtools view -b - | samtools sort -o "${output_dir}/64_sorted.bam"
 
-# Merge the BAM files for the R7 genome
-samtools merge "${output_dir}/R7_merged.bam" "${output_dir}/62_sorted.bam" "${output_dir}/63_sorted.bam" "${output_dir}/64_sorted.bam"
-
-# Index the HP126 genome
-bwa index "${assembly_dir}/polished_assembly_66.fasta"
-
+# Map HP126 RNA reads to the R7 assembly
 # Run BWA index and mem for the HP126 assembly, using paired reads. Piping results to sorted BAM file
 # For sample 59
-bwa mem -t 8 "${assembly_dir}/polished_assembly_66.fasta" \
+bwa mem -t 8 "${assembly_dir}/polished_assembly_72.fasta" \
 "${reads_dir}59_1.fq.gz" "${reads_dir}59_2.fq.gz" \
 | samtools view -b - | samtools sort -o "${output_dir}/59_sorted.bam"
 
 # For sample 60
-bwa mem -t 8 "${assembly_dir}/polished_assembly_66.fasta" \
+bwa mem -t 8 "${assembly_dir}/polished_assembly_72.fasta" \
 "${reads_dir}60_1.fq.gz" "${reads_dir}60_2.fq.gz" \
 | samtools view -b - | samtools sort -o "${output_dir}/60_sorted.bam"
 
 # For sample 61
-bwa mem -t 8 "${assembly_dir}/polished_assembly_66.fasta" \
+bwa mem -t 8 "${assembly_dir}/polished_assembly_72.fasta" \
 "${reads_dir}61_1.fq.gz" "${reads_dir}61_2.fq.gz" \
 | samtools view -b - | samtools sort -o "${output_dir}/61_sorted.bam"
-
-# Merge the BAM files for the HP126 genome
-samtools merge "${output_dir}/HP126_merged.bam" "${output_dir}/59_sorted.bam" "${output_dir}/60_sorted.bam" "${output_dir}/61_sorted.bam"
