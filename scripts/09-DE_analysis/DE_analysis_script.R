@@ -28,11 +28,14 @@ count_matrix_filtered <- count_matrix[keep, ]
 # Create sample metadata
 sample_info <- data.frame(
   row.names = colnames(count_matrix),
-  condition = c(rep("R7", 3), rep("HP126", 3))
+  condition = c(rep("HP126", 3), rep("R7", 3))
 )
 
 # Convert condition to factor
-sample_info$condition <- factor(sample_info$condition, levels = c("R7", "HP126"))
+sample_info$condition <- factor(sample_info$condition, levels = c("HP126", "R7"))
+
+# Save sample_info as CSV
+write.csv(sample_info, file = "sample_info.csv", row.names = TRUE)
 
 # Construct DESeq2 dataset
 dds <- DESeqDataSetFromMatrix(countData = count_matrix,
@@ -40,8 +43,8 @@ dds <- DESeqDataSetFromMatrix(countData = count_matrix,
                               design = ~ condition)
 
 # Filter genes with less than 10 counts in at least 2 samples per subspecies
-keep <- rowSums(counts(dds)[, dds$condition == "R7"]) > 0 & 
-        rowSums(counts(dds)[, dds$condition == "HP126"]) > 0
+keep <- rowSums(counts(dds)[, dds$condition == "HP126"]) > 0 & 
+        rowSums(counts(dds)[, dds$condition == "R7"]) > 0
 dds <- dds[keep, ]
 
 # Run DESeq2
