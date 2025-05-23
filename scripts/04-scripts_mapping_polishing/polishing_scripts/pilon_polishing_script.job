@@ -1,0 +1,37 @@
+#!/bin/bash -l
+
+#SBATCH -A uppmax2025-3-3
+#SBATCH -M snowy
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 02:00:00
+#SBATCH -J pilon_polishing_DNA
+#SBATCH --output=%x.%j.out
+
+# Load modules
+module load bioinfo-tools
+module load bwa
+
+set -e
+
+# Input directories
+assembly_dir="/home/lukasa/Genome_analysis_project/03-assembly/long_read_assembly_output/SRR244130"
+bam_dir="/home/lukasa/Genome_analysis_project/raw_data/04-mapping-polishing/"
+output_dir="/home/lukasa/Genome_analysis_project/04-mapping_polishing"
+
+# File paths for HP126 assembly
+assembly_file="${assembly_dir}66/assembly.fasta"
+bam_file="${bam_dir}/aln66.bam"
+
+# Run Pilon for the HP126 assembly
+pilon --genome $assembly_file --frags $bam_file \
+--output polished_assembly_66 --outdir $output_dir
+
+# File paths for R7 assembly
+assembly_file="${assembly_dir}72/assembly.fasta"
+bam_file="${bam_dir}/aln72.bam"
+
+# Run Pilon for the R7 assembly
+pilon --genome $assembly_file --frags $bam_file \
+--output polished_assembly_72 --outdir $output_dir
+
